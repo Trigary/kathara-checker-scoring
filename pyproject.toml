@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "kathara-checker-scoring"
+description = "Computes student scores by assigning points to the checks executed by kathara-lab-checker."
+keywords = ["Kathara"]
+dynamic = ["version"]
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.12"
+classifiers = [
+    "Programming Language :: Python",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Education",
+    "Intended Audience :: Telecommunications Industry",
+]
+dependencies = [
+    "kathara",
+    "kathara_lab_checker"
+]
+
+[project.scripts]
+kathara-checker-scoring = "kathara_checker_scoring.__main__:main"
+
+[project.urls]
+Repository = "https://github.com/Trigary/kathara-checker-scoring.git"

@@ -1,0 +1,11 @@
+# IDE specific files
+/.idea
+/.vscode
+
+# Python virtual environments
+/.venv
+
+# Cache files, packaged project
+*.pyc
+__pycache__
+/src/kathara_checker_scoring.egg-info
