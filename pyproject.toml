@@ -9,7 +9,7 @@ keywords = ["Kathara"]
 dynamic = ["version"]
 readme = "README.md"
 license = { file = "LICENSE" }
-requires-python = ">=3.12"
+requires-python = ">=3.11"
 classifiers = [
     "Programming Language :: Python",
     "Intended Audience :: Science/Research",
@@ -17,7 +17,6 @@ classifiers = [
     "Intended Audience :: Telecommunications Industry",
 ]
 dependencies = [
-    "kathara",
     "kathara_lab_checker"
 ]
 
