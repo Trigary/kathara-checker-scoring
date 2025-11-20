@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+import logging
 from kathara_checker_scoring.models import (
     CategoryResult,
     CheckGroup,
@@ -8,6 +9,8 @@ from kathara_checker_scoring.models import (
     ScoringConfig,
     ScoringResult,
 )
+
+_logger = logging.getLogger(__name__)
 
 
 @dataclass(frozen=True)
@@ -49,17 +52,23 @@ def score(config: ScoringConfig, records: list[LabResultRecord]) -> ScoringResul
 
     multiple_groups = matching.records_matching_multiple_groups()
     if len(multiple_groups) > 0:
+        _logger.error("The following CSV records match multiple checks groups:")
+        _logger.error(", ".join(f"[{record} -> {matching.record_to_groups[record]}]" for record in multiple_groups))
         record = multiple_groups[0]
         groups = matching.record_to_groups[record]
         raise ValueError(f"Some CSV records match multiple check groups, for example: {record} -> {groups}")
 
     without_group = matching.records_without_group()
     if len(without_group) > 0:
+        _logger.error("The following CSV records don't match any check groups:")
+        _logger.error(", ".join(str(record) for record in without_group))
         record = without_group[0]
         raise ValueError(f"Some CSV records didn't match any check groups, for example: {record}")
 
     without_records = matching.groups_without_records()
     if len(without_records) > 0:
+        _logger.error("The following check groups don't match any CSV records:")
+        _logger.error(", ".join(str(group) for group in without_records))
         group = without_records[0]
         raise ValueError(f"Some check groups didn't match any CSV records, for example: {group}")
 
