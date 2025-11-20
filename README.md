@@ -124,6 +124,7 @@ Below a small supplementary documentation can be found:
   - `each`: each check in the group are worth `X` points, totalling `X * num_checks`.
   - `linear`: the `X * passed_checks / failed_checks` formula specifies the awarded points.
   - `linear_rounded`: same as `linear`, except the earned points are rounded towards the closest integer.
+  - `linear_floored`: same as `linear`, except the earned points are floored.
   - `all`: `X` points are awarded if all checks pass, otherwise `0` points are given.
   - `any`: `X` points are awarded if at least one check passes, otherwise `0` points are given.
 - It is recommended to create a category with a `points_multiplier` that can be used to hide the unwanted checks.

@@ -40,14 +40,18 @@ def main() -> None:
         stream=sys.stdout,
     )
 
+    lab_path: Path | None = None if args.lab is None else args.lab.resolve()
+    labs_path: Path | None = None if args.labs is None else args.labs.resolve()
+
     config = load_config(args.config)
     if args.run_kathara:
-        run_kathara(args.run_kathara, args.lab, args.labs)
-    if args.lab:
-        handle_single_lab(config, args.lab, args.show_hidden_categories)
+        run_kathara(args.run_kathara, lab_path, labs_path)
+    if lab_path:
+        handle_single_lab(config, lab_path.resolve(), args.show_hidden_categories)
     else:
-        results = handle_multiple_labs(config, args.labs, args.show_hidden_categories)
-        save_csv_summary(args.labs / "result-scoring.csv", results)
+        assert labs_path is not None
+        results = handle_multiple_labs(config, labs_path, args.show_hidden_categories)
+        save_csv_summary(labs_path / "result-scoring.csv", results)
 
 
 def load_config(path: Path) -> ScoringConfig:

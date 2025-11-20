@@ -23,6 +23,7 @@ class GroupType(StrEnum):
     EACH = "each"
     LINEAR = "linear"
     LINEAR_ROUNDED = "linear_rounded"
+    LINEAR_FLOORED = "linear_floored"
     ALL = "all"
     ANY = "any"
 
@@ -30,9 +31,14 @@ class GroupType(StrEnum):
         count_passed = sum(1 for rec in records if rec.passed)
         if self is GroupType.EACH:
             return group_points * count_passed
-        elif self is GroupType.LINEAR or self is GroupType.LINEAR_ROUNDED:
+        elif self in [GroupType.LINEAR, GroupType.LINEAR_ROUNDED, GroupType.LINEAR_FLOORED]:
             earned = (count_passed / len(records)) * group_points
-            return earned if self is GroupType.LINEAR else round(earned)
+            if self is GroupType.LINEAR_ROUNDED:
+                return round(earned)
+            elif self is GroupType.LINEAR_FLOORED:
+                return math.floor(earned)
+            else:
+                return earned
         elif self is GroupType.ALL:
             return group_points if count_passed == len(records) else 0
         elif self is GroupType.ANY:
@@ -42,7 +48,7 @@ class GroupType(StrEnum):
     def calculate_max_points(self, group_points: int | float, records: list[LabResultRecord]) -> int | float:
         if self is GroupType.EACH:
             return group_points * len(records)
-        elif self is GroupType.LINEAR or self is GroupType.LINEAR_ROUNDED:
+        elif self in [GroupType.LINEAR, GroupType.LINEAR_ROUNDED, GroupType.LINEAR_FLOORED]:
             return group_points
         elif self is GroupType.ALL or self is GroupType.ANY:
             return group_points
